@@ -43,6 +43,7 @@ app.post('/stk', async (req, res) => {
     }
   }
 );
+    
     res.json({
       success: true,
       data: response.data
