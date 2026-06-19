@@ -62,10 +62,13 @@ console.error("Data:", error.response?.data);
 
 // ✅ CALLBACK (for future real verification)
 app.post('/callback', (req, res) => {
-  console.log("PAYMENT CALLBACK:", req.body);
+
+  console.log("========== CALLBACK RECEIVED ==========");
+  console.log(JSON.stringify(req.body, null, 2));
+  console.log("======================================");
+
   res.sendStatus(200);
 });
-
 // ✅ STATUS (temporary fake success)
 app.post('/status', (req, res) => {
   res.json({ paid: true });
