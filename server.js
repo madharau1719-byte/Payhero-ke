@@ -1,68 +1,50 @@
-const express = require("express");
-const axios = require("axios");
-const cors = require("cors");
-
+const express = require('express');
+const axios = require('axios');
 const app = express();
+
 app.use(express.json());
-app.use(cors());
 
-const PORT = process.env.PORT || 3000;
+// Test route
+app.get('/', (req, res) => {
+  res.send('PayHero API running 🚀');
+});
 
-// 🔐 STK PUSH ROUTE
-app.post("/stkpush", async (req, res) => {
+// STK Push
+app.post('/stk', async (req, res) => {
   try {
-    let { phone, amount } = req.body;
-
-    // format phone number
-    if (phone.startsWith("0")) {
-      phone = "254" + phone.substring(1);
-    }
+    const { phone, amount } = req.body;
 
     const response = await axios.post(
-      "https://backend.payhero.co.ke/api/v2/payments",
+      'https://backend.payhero.co.ke/api/v2/payments',
       {
-        amount: amount,
         phone_number: phone,
-        channel_id: 133,
-        provider: "m-pesa",
-        external_reference: "INV-" + Date.now(),
-        customer_name: "Customer",
-        callback_url: "https://your-app-name.onrender.com/callback"
+        amount: amount
       },
       {
         headers: {
-          "Content-Type": "application/json",
-          "Authorization": process.env.PAYHERO_API_KEY
+          Authorization: `Bearer ${process.env.API_KEY}`,
+          'Content-Type': 'application/json'
         }
       }
     );
 
-    res.json({ success: true, data: response.data });
+    res.json({
+      success: true,
+      data: response.data
+    });
 
   } catch (error) {
-    console.log(error.response?.data || error.message);
-
     res.status(500).json({
       success: false,
-      error: "Payment failed"
+      error: error.response?.data || error.message
     });
   }
 });
 
-
-// 📩 CALLBACK (VERY IMPORTANT)
-app.post("/callback", (req, res) => {
-
-  console.log("PAYMENT CALLBACK:", req.body);
-
-  // Later we will:
-  // ✅ verify payment
-  // ✅ activate bundle
-
-  res.sendStatus(200);
+// Dummy status (for now)
+app.post('/status', (req, res) => {
+  res.json({ paid: true });
 });
 
-
-app.listen(PORT, () => {
-  console.log("Server running on port " + PORT);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log('Server running...'));
