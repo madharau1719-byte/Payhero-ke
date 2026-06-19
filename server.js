@@ -30,7 +30,7 @@ app.post('/stk', async (req, res) => {
       {
         amount: amount,
         phone_number: phone,
-        channel_id: 133,
+        channel_id: 9543,
         provider: "m-pesa",
         external_reference: "INV-" + Date.now(),
         customer_name: "Customer",
@@ -38,9 +38,10 @@ app.post('/stk', async (req, res) => {
       },
       {
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.API_KEY}`
-        }
+          headers: {
+  'Content-Type': 'application/json',
+  Authorization: process.env.API_KEY
+}
       }
     );
 
@@ -50,8 +51,9 @@ app.post('/stk', async (req, res) => {
     });
 
   } catch (error) {
-    console.error("STK ERROR:", error.response?.data || error.message);
-
+    console.error("STK ERROR:");
+console.error("Status:", error.response?.status);
+console.error("Data:", error.response?.data);
     res.status(500).json({
       success: false,
       error: error.response?.data || error.message
