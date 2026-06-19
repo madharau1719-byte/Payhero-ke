@@ -26,25 +26,23 @@ app.post('/stk', async (req, res) => {
     }
 
     const response = await axios.post(
-      'https://backend.payhero.co.ke/api/v2/payments',
-      {
-        amount: amount,
-        phone_number: phone,
-        channel_id: 133,
-        provider: "m-pesa",
-        external_reference: "INV-" + Date.now(),
-        customer_name: "Customer",
-        callback_url: "https://payhero-ke.onrender.com/callback"
-      },
-      
-        headers: {
-          headers: {
-  'Content-Type': 'application/json',
-  Authorization: process.env.API_KEY
-}
-      }
-    );
-
+  'https://backend.payhero.co.ke/api/v2/payments',
+  {
+    amount: amount,
+    phone_number: phone,
+    channel_id: 133,
+    provider: "m-pesa",
+    external_reference: "INV-" + Date.now(),
+    customer_name: "Customer",
+    callback_url: "https://payhero-ke.onrender.com/callback"
+  },
+  {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: process.env.API_KEY
+    }
+  }
+);
     res.json({
       success: true,
       data: response.data
