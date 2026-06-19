@@ -36,7 +36,7 @@ app.post('/stk', async (req, res) => {
         customer_name: "Customer",
         callback_url: "https://payhero-ke.onrender.com/callback"
       },
-      {
+      
         headers: {
           headers: {
   'Content-Type': 'application/json',
