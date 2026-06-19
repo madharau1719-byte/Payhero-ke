@@ -30,7 +30,7 @@ app.post('/stk', async (req, res) => {
   {
     amount: amount,
     phone_number: phone,
-    channel_id: 133,
+    channel_id: 9543,
     provider: "m-pesa",
     external_reference: "INV-" + Date.now(),
     customer_name: "Customer",
